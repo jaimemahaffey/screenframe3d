@@ -1,0 +1,24 @@
+# OpenSCAD files
+*.stl
+*.3mf
+*.amf
+
+# Slicer files
+*.gcode
+*.bgcode
+
+# OS files
+.DS_Store
+Thumbs.db
+*~
+
+# Editor files
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Build artifacts
+build/
+export/
+output/
