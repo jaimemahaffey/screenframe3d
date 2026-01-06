@@ -12,7 +12,13 @@ include <../config.scad>
 module top_frame_cell() {
     difference() {
         // Main frame body
-        cube([CELL_WIDTH, CELL_LENGTH, TOP_FRAME_HEIGHT]);
+        union() {
+            // Outer frame rectangle
+            cube([CELL_WIDTH, CELL_LENGTH, TOP_FRAME_HEIGHT]);
+
+            // Add connector pins on edges (male connectors)
+            add_connector_pins();
+        }
 
         // Cut out inner opening for screen visibility
         translate([FRAME_WIDTH, FRAME_WIDTH, -0.1])
@@ -24,6 +30,9 @@ module top_frame_cell() {
 
         // Add countersunk screw holes for attachment to base frame
         add_countersunk_screw_holes();
+
+        // Add connector sockets on opposite edges (female connectors)
+        add_connector_sockets();
     }
 }
 
@@ -106,6 +115,82 @@ module countersunk_hole() {
             d = COUNTERSINK_DIA,
             $fn = 30
         );
+}
+
+// Add male connector pins to two edges (right and back)
+// Same pattern as base frame for alignment
+module add_connector_pins() {
+    pin_spacing = (CONNECTORS_PER_EDGE > 1) ?
+        CELL_LENGTH / (CONNECTORS_PER_EDGE + 1) :
+        CELL_LENGTH / 2;
+
+    // Pins on right edge (X+)
+    for (i = [1:CONNECTORS_PER_EDGE]) {
+        translate([
+            CELL_WIDTH,
+            i * pin_spacing,
+            TOP_FRAME_HEIGHT / 2
+        ])
+        rotate([0, 90, 0])
+        cylinder(
+            h = CONNECTOR_PIN_LENGTH,
+            d = CONNECTOR_PIN_DIA - TOLERANCE,
+            $fn = 30
+        );
+    }
+
+    // Pins on back edge (Y+)
+    for (i = [1:CONNECTORS_PER_EDGE]) {
+        translate([
+            i * pin_spacing,
+            CELL_LENGTH,
+            TOP_FRAME_HEIGHT / 2
+        ])
+        rotate([-90, 0, 0])
+        cylinder(
+            h = CONNECTOR_PIN_LENGTH,
+            d = CONNECTOR_PIN_DIA - TOLERANCE,
+            $fn = 30
+        );
+    }
+}
+
+// Add female connector sockets to two edges (left and front)
+// Same pattern as base frame for alignment
+module add_connector_sockets() {
+    socket_spacing = (CONNECTORS_PER_EDGE > 1) ?
+        CELL_LENGTH / (CONNECTORS_PER_EDGE + 1) :
+        CELL_LENGTH / 2;
+
+    // Sockets on left edge (X-)
+    for (i = [1:CONNECTORS_PER_EDGE]) {
+        translate([
+            -0.1,
+            i * socket_spacing,
+            TOP_FRAME_HEIGHT / 2
+        ])
+        rotate([0, 90, 0])
+        cylinder(
+            h = CONNECTOR_SOCKET_DEPTH + 0.1,
+            d = CONNECTOR_PIN_DIA + TOLERANCE,
+            $fn = 30
+        );
+    }
+
+    // Sockets on front edge (Y-)
+    for (i = [1:CONNECTORS_PER_EDGE]) {
+        translate([
+            i * socket_spacing,
+            -0.1,
+            TOP_FRAME_HEIGHT / 2
+        ])
+        rotate([-90, 0, 0])
+        cylinder(
+            h = CONNECTOR_SOCKET_DEPTH + 0.1,
+            d = CONNECTOR_PIN_DIA + TOLERANCE,
+            $fn = 30
+        );
+    }
 }
 
 // Render the component

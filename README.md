@@ -34,7 +34,17 @@ Open `screen_frame_assembly.scad` in OpenSCAD to see your complete frame:
 - Adjust `EXPLODED_VIEW = true;` to see how pieces fit together
 - Check dimensions in the console output
 
-### 3. Print the Parts
+### 3. Test the Connector Fit (RECOMMENDED)
+
+Before printing full cells, test your printer's tolerances:
+
+**Open `test_connector_fit.scad`** - prints in ~15 minutes
+- Exports two small test blocks (pin + socket)
+- Try clicking them together
+- If too tight: increase `TOLERANCE` in config.scad
+- If too loose: decrease `TOLERANCE` in config.scad
+
+### 4. Print the Parts
 
 Open these files in your slicer:
 - `print_base_frame.scad` - Print one for each cell
@@ -47,30 +57,78 @@ Open these files in your slicer:
 - Supports: None required
 - Orientation: Print as-is (flat on bed)
 
-### 4. Assembly
+**Bed Size Requirements:**
+- Default 8"×8" cell = 213mm × 213mm print size (includes connector pins)
+- ✅ Fits 250×250mm bed with 37mm margin
+- ✅ Fits 256×256mm bed (Bambu P1S) with 43mm margin
+
+### 5. Assembly
 
 1. **Cut your screen material** to size (slightly larger than total frame)
-2. **Assemble the base frame grid**: Connect base frame cells using integrated pins/sockets
+2. **Click base frame cells together**:
+   - Each cell has pins on RIGHT and BACK edges
+   - Each cell has sockets on LEFT and FRONT edges
+   - Pins snap into sockets with a satisfying click
+   - Build your grid from bottom-left to top-right
 3. **Lay screen mesh** over the assembled base frame
-4. **Place top frame** on top of the screen
+4. **Place top frame cells** on top of the screen (they also click together)
 5. **Screw together**: Use M3 countersunk screws through top into base
 6. **Trim excess screen** material around edges
 7. **Place on enclosure lip** and ensure secure fit
+
+💡 **Tip:** Open `assembly_demo.scad` to see how cells connect!
 
 ## Project Structure
 
 ```
 screenframe3d/
-├── config.scad                  # Master configuration file - EDIT THIS
-├── screen_frame_assembly.scad   # Preview complete assembly
-├── print_base_frame.scad        # Print file for base frames
-├── print_top_frame.scad         # Print file for top frames
-├── print_connectors.scad        # Optional spare connector parts
+├── config.scad                  # ⚙️ Master configuration - EDIT THIS
+├── test_connector_fit.scad      # 🧪 Test print for connector fit
+├── assembly_demo.scad           # 📺 Visual guide showing how cells connect
+├── screen_frame_assembly.scad   # 👀 Preview complete assembly
+├── print_base_frame.scad        # 🖨️ Print file for base frames
+├── print_top_frame.scad         # 🖨️ Print file for top frames
+├── print_connectors.scad        # 🖨️ Optional spare connector parts
+├── examples.scad                # 📚 Example configurations gallery
+├── QUICK_START.md               # 🚀 5-minute setup guide
 └── lib/
     ├── base_frame.scad          # Base frame component library
     ├── top_frame.scad           # Top frame component library
     └── connectors.scad          # Standalone connector library
 ```
+
+## How the Click-Together System Works
+
+Each cell has an integrated connector system:
+
+**Pin Placement (Male Connectors):**
+- RIGHT edge: 2 pins extending 10mm outward
+- BACK edge: 2 pins extending 10mm outward
+
+**Socket Placement (Female Connectors):**
+- LEFT edge: 2 sockets, 11mm deep
+- FRONT edge: 2 sockets, 11mm deep
+
+**Assembly Pattern:**
+```
+Start here ↓
+┌─────┬─────┐
+│ 1st │ 2nd │  ← Add cells left to right
+├─────┼─────┤
+│ 3rd │ 4th │  ← Then move to next row
+└─────┴─────┘
+```
+
+When you push two cells together:
+1. Pins on Cell A's RIGHT edge insert into Cell B's LEFT sockets
+2. The 11mm socket depth accommodates the 10mm pin perfectly
+3. Cells click together flush with no gap
+4. Top frame cells also click together the same way
+
+**See it in action:** Open `assembly_demo.scad` and change `DEMO_MODE` to see:
+- `"separated"` - View the connector features
+- `"joining"` - See alignment during assembly
+- `"connected"` - See the final flush fit
 
 ## Configuration Options
 

@@ -2,6 +2,11 @@
 
 ## 5-Minute Setup
 
+### Step 0: Test Connector Fit (RECOMMENDED)
+Print `test_connector_fit.scad` first (~15 min print):
+- Tests if connectors will click together properly
+- Adjust `TOLERANCE` in config.scad if needed
+
 ### Step 1: Choose Your Size
 Open `config.scad` and set these two values:
 
@@ -24,14 +29,20 @@ Open `screen_frame_assembly.scad` in OpenSCAD - you'll see your complete screen 
 - **Material:** PETG or ASA
 - **Infill:** 20-30%
 - **No supports needed**
+- **Bed size:** 213×213mm (fits 250×250mm bed perfectly!)
 
 ### Step 5: Assemble
-1. Connect base frame cells together (pins snap into sockets)
+1. **Click base cells together** - build left to right, bottom to top
+   - Pins on RIGHT/BACK edges
+   - Sockets on LEFT/FRONT edges
+   - Should click together flush!
 2. Lay screen mesh on top
-3. Place top frames over screen
+3. Click top frame cells together over screen
 4. Screw top to base with M3 screws
 5. Trim excess screen
 6. Place on enclosure!
+
+💡 See `assembly_demo.scad` for a visual guide!
 
 ## Common Size Calculator
 

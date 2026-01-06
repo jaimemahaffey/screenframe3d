@@ -65,8 +65,8 @@ CONNECTOR_PIN_DIA = 4;
 // Connector pin length
 CONNECTOR_PIN_LENGTH = 10;
 
-// Connector socket depth
-CONNECTOR_SOCKET_DEPTH = 5.5; // Slightly deeper than half pin length
+// Connector socket depth (must be >= pin length for flush fit)
+CONNECTOR_SOCKET_DEPTH = 11; // 1mm deeper than pin for easy insertion
 
 // Number of connector pins per edge
 CONNECTORS_PER_EDGE = 2;
