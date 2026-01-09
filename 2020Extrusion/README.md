@@ -7,15 +7,16 @@ A collection of parametric connectors and accessories for 2020 aluminum extrusio
 ### Simple C-Clip Tube Holder
 **Status: Production Ready** 🎉 **RECOMMENDED FOR MOST USES**
 
-The easiest way to mount tubes - just a simple press-fit C-clip!
+The easiest way to mount tubes - just press the tube into a simple C-shaped clip!
 
 **Features:**
-- Simple C-shaped press-fit design
+- Simple C-shaped press-fit tube holder (easy insertion!)
+- Twist-lock profile mounting (tool-free)
 - 1.5" × 1.5" (38mm) compact base
-- Two M4 screw mounting (standard hardware)
 - Easy tube insertion/removal
 - Internal grip ribs for secure hold
 - Default: 1/4" (6.35mm) tubing
+- No screws required!
 
 **File:** `print_tube_clip_simple.scad`
 
@@ -120,10 +121,11 @@ Edit `config.scad` to adjust:
 ### 4. Install on Profile
 
 **Simple C-Clip (Recommended):**
-1. **Position:** Place clip on profile where needed
-2. **Screw:** Secure with 2× M4 screws into T-slot or drilled holes
-3. **Insert:** Press tube into C-clip opening
-4. **Done!** Internal ribs grip the tube
+1. **Insert:** Align tabs with T-slot opening
+2. **Push:** Slide clip toward profile
+3. **Twist:** Rotate 45° clockwise to lock
+4. **Press:** Push tube into C-shaped opening
+5. **Done!** Internal ribs grip the tube
 
 **Twist-Lock Clips (Tool-Free):**
 1. **Insert:** Align tabs with T-slot opening
@@ -197,16 +199,15 @@ Common patterns extracted to shared library modules
 ### Which Clip Should I Use?
 
 **Use Simple C-Clip when:**
-- You have M4 screws and T-nuts available
-- You want the simplest, most reliable design
-- You need frequently accessed tubes (easy removal)
+- You want the easiest tube insertion (C-shaped opening)
+- Single tube per mounting point
 - Compact size is important (1.5" × 1.5")
+- Quick tube changes/access needed
 
-**Use Twist-Lock Clips when:**
-- You can't use screws (temporary setup)
-- Tool-free installation is required
-- You need to reposition clips frequently
-- Mounting multiple tubes in a row
+**Use 270° Wrap Clips when:**
+- Maximum tube security required (fuller wrap)
+- Horizontal mounting (parallel to profile)
+- Multiple tubes in one clip (multi-tube version)
 
 ### Custom Tube Sizes
 

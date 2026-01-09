@@ -29,13 +29,21 @@ module simple_tube_clip(tube_od=TUBE_OD_QUARTER_INCH, base_width=SIMPLE_CLIP_WID
     inner_radius = tube_od / 2 + TOLERANCE * 0.5;  // Tighter fit for press-fit
     outer_radius = inner_radius + C_CLIP_WALL;
 
-    base_height = 8;  // Height of mounting base
+    base_height = MOUNT_HEIGHT;  // Use standard mount height for twist-lock
 
     difference() {
         union() {
-            // Mounting base plate
-            translate([-base_width/2, -base_length/2, 0])
-            rounded_cube([base_width, base_length, base_height], radius=2);
+            // Mounting base plate (rectangular for twist-lock tabs)
+            translate([-base_width/2, -outer_radius - C_CLIP_WALL/2, 0])
+            rounded_cube([base_width, outer_radius + C_CLIP_WALL/2 + 5, base_height], radius=1);
+
+            // Twist-lock tabs (male connectors)
+            translate([-LOCK_TAB_WIDTH/2, -outer_radius - C_CLIP_WALL/2, T_SLOT_DEPTH])
+            twist_lock_tabs();
+
+            translate([LOCK_TAB_WIDTH/2, -outer_radius - C_CLIP_WALL/2, T_SLOT_DEPTH])
+            mirror([1, 0, 0])
+            twist_lock_tabs();
 
             // C-shaped clip body
             translate([0, 0, base_height])
@@ -69,22 +77,18 @@ module simple_tube_clip(tube_od=TUBE_OD_QUARTER_INCH, base_width=SIMPLE_CLIP_WID
             }
         }
 
-        // T-slot mounting holes (simple drop-in style)
-        // Two M4 clearance holes for screws into T-slot
-        hole_spacing = base_width * 0.5;
+        // T-slot insert space (for twist-lock mechanism)
+        translate([-t_slot_insert_width()/2, -outer_radius - C_CLIP_WALL/2 - 0.1, T_SLOT_DEPTH])
+        cube([t_slot_insert_width(), T_SLOT_DEPTH + 1, base_height - T_SLOT_DEPTH + 0.1]);
 
-        translate([hole_spacing/2, 0, -0.1])
-        cylinder(d=4.5, h=base_height + 0.2, $fn=30);  // M4 clearance
+        // Twist-lock channels on sides
+        translate([-LOCK_TAB_WIDTH/2 - 2, -outer_radius - C_CLIP_WALL/2 - 0.1, T_SLOT_DEPTH - 1])
+        rotate([0, 0, 0])
+        twist_lock_channel();
 
-        translate([-hole_spacing/2, 0, -0.1])
-        cylinder(d=4.5, h=base_height + 0.2, $fn=30);  // M4 clearance
-
-        // Countersinks for flat head screws (optional)
-        translate([hole_spacing/2, 0, base_height - 2])
-        cylinder(d=8, h=2.1, $fn=30);
-
-        translate([-hole_spacing/2, 0, base_height - 2])
-        cylinder(d=8, h=2.1, $fn=30);
+        translate([LOCK_TAB_WIDTH/2 + 2, -outer_radius - C_CLIP_WALL/2 - 0.1, T_SLOT_DEPTH - 1])
+        mirror([1, 0, 0])
+        twist_lock_channel();
     }
 
     // Add grip ribs on inside of C-clip for better hold
@@ -94,6 +98,47 @@ module simple_tube_clip(tube_od=TUBE_OD_QUARTER_INCH, base_width=SIMPLE_CLIP_WID
             translate([inner_radius - 0.3, -0.4, 0])
             cube([0.3, 0.8, C_CLIP_HEIGHT]);
         }
+    }
+}
+
+// Twist-lock tabs (imported from tube_clips.scad pattern)
+module twist_lock_tabs() {
+    tab_height = 4;
+    tab_base_width = LOCK_TAB_WIDTH;
+
+    // Main tab body
+    linear_extrude(LOCK_TAB_THICKNESS)
+    polygon([
+        [0, 0],
+        [tab_base_width, 0],
+        [tab_base_width - 2, tab_height],
+        [2, tab_height]
+    ]);
+
+    // Entry bevel for easier insertion
+    translate([0, -0.5, 0])
+    rotate([-90, 0, 0])
+    linear_extrude(0.5)
+    polygon([
+        [0, 0],
+        [tab_base_width, 0],
+        [tab_base_width, LOCK_TAB_THICKNESS],
+        [0, LOCK_TAB_THICKNESS]
+    ]);
+}
+
+// Lock channel (the receiving slot for twist lock)
+module twist_lock_channel(length=LOCK_TAB_WIDTH + 4, width=LOCK_TAB_THICKNESS + 0.4, depth=5) {
+    translate([0, 0, -0.1])
+    union() {
+        // Straight insertion channel
+        cube([length/2, width, depth + 0.1]);
+
+        // Rotated lock channel
+        translate([length/2, width/2, 0])
+        rotate([0, 0, LOCK_ROTATION])
+        translate([-length/4, -width/2, 0])
+        cube([length/2, width, depth + 0.1]);
     }
 }
 
