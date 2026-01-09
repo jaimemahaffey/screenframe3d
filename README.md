@@ -16,17 +16,21 @@ Parametric, modular screen frame system with click-together cells. Perfect for r
 
 **Status:** ✅ Production Ready
 
-### [2020 Profile Accessories](2020-profile/) *(Coming Soon)*
+### [2020 Extrusion Accessories](2020Extrusion/)
 Connectors and accessories for 2020 aluminum extrusion profiles.
 
-**Planned Features:**
-- Tube clips and cable management
+**Available:**
+- ✅ Twist-lock tube clips (vertical, horizontal, multi-tube)
+  - 1/4" tubing default, parametric for other sizes
+  - Tool-free installation - insert, push, twist!
+
+**Planned:**
 - Planter mounts and brackets
 - Corner connectors
 - Camera mounts
 - Custom clamps
 
-**Status:** 🚧 In Development
+**Status:** ⚡ Production Ready (Tube Clips)
 
 ## 🛠️ Common Libraries
 
