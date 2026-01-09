@@ -1,278 +1,228 @@
-# Screen Frame 3D - Modular Reptile Enclosure Screen System
+# SCAD Toolkit
 
-A fully parametric OpenSCAD library for creating customizable, modular screen frames perfect for reptile enclosure tops. Designed specifically for 3D printing on the Bambu Lab P1S.
+A collection of parametric OpenSCAD libraries for 3D printing. Each library is self-contained with documentation, examples, and export scripts.
 
-## Features
+## 📚 Libraries
 
-- **Fully Customizable Grid Size**: Default 8"x8" cells, easily adjustable
-- **Modular Design**: Create any size screen by combining cells
-- **Integrated Connectors**: Built-in pin/socket system joins cells seamlessly
-- **Sandwich Construction**: Screen material held securely between top and bottom frames
-- **Optimized for 3D Printing**: Fits Bambu Lab P1S build volume (256x256mm)
-- **Parametric Everything**: All dimensions adjustable via config file
-- **Chameleon-Safe**: Designed for small reptiles with lightweight, secure construction
+### [Modular Screen Frame](modular-screen-frame/)
+Parametric, modular screen frame system with click-together cells. Perfect for reptile enclosure tops, window screens, or custom ventilation panels.
 
-## Quick Start
+**Features:**
+- Fully customizable grid sizes (default 8"×8" cells)
+- Click-together connector system
+- Sandwich design for secure screen clamping
+- Optimized for 250×250mm+ print beds
+- Complete documentation and assembly guides
 
-### 1. Customize Your Screen Size
+**Status:** ✅ Production Ready
 
-Edit `config.scad` to set your enclosure dimensions:
+### [2020 Profile Accessories](2020-profile/) *(Coming Soon)*
+Connectors and accessories for 2020 aluminum extrusion profiles.
 
-```openscad
-// Default 8" x 8" cells
-CELL_WIDTH = 203.2;   // 8 inches in mm
-CELL_LENGTH = 203.2;  // 8 inches in mm
+**Planned Features:**
+- Tube clips and cable management
+- Planter mounts and brackets
+- Corner connectors
+- Camera mounts
+- Custom clamps
 
-// Create a 16" x 16" screen (2x2 grid)
-GRID_CELLS_X = 2;
-GRID_CELLS_Y = 2;
-```
+**Status:** 🚧 In Development
 
-### 2. Preview the Assembly
+## 🛠️ Common Libraries
 
-Open `screen_frame_assembly.scad` in OpenSCAD to see your complete frame:
-- Adjust `EXPLODED_VIEW = true;` to see how pieces fit together
-- Check dimensions in the console output
+Shared utilities available to all projects:
 
-### 3. Test the Connector Fit (RECOMMENDED)
+### [common/connectors.scad](common/connectors.scad)
+Reusable connector patterns:
+- Pin and socket connectors
+- Dovetail joints
+- Snap-fit mechanisms
+- T-slot profiles
+- Ball and socket joints
+- Spring clips
 
-Before printing full cells, test your printer's tolerances:
+### [common/hardware.scad](common/hardware.scad)
+Standard hardware components:
+- Metric screws (M2, M3, M4, M5)
+- Hex nuts and washers
+- Heat-set inserts
+- Screw holes with countersinks
 
-**Open `test_connector_fit.scad`** - prints in ~15 minutes
-- Exports two small test blocks (pin + socket)
-- Try clicking them together
-- If too tight: increase `TOLERANCE` in config.scad
-- If too loose: decrease `TOLERANCE` in config.scad
+### [common/utils.scad](common/utils.scad)
+Helper functions and modules:
+- Unit conversions (inch/mm/feet)
+- Chamfers and fillets
+- Rounded shapes
+- Arrays (linear, grid, circular)
+- Text embossing/debossing
+- Living hinges
+- Structural helpers (ribs, lattice infill)
 
-### 4. Export 3MF Files (Recommended)
+## 🚀 Quick Start
 
-**Option A: Automated Export (Easy)**
+### 1. Choose a Library
+
 ```bash
-./export_complete_set.py
+cd modular-screen-frame/    # or any other library
 ```
-This Python script will:
-- Read your config.scad automatically
-- Generate 3MF files for all parts you need
-- Create complete build plate layouts (for small grids)
-- Save everything to `output/` directory
 
-**Option B: Manual Export (Traditional)**
-1. Open `print_base_frame.scad` in OpenSCAD
-2. Press F6 to render
-3. File → Export → Export as 3MF
-4. Repeat for `print_top_frame.scad`
+### 2. Customize Configuration
 
-**Option C: Build Plate Layout**
+Each library has a `config.scad` file with all parameters:
+
 ```bash
-# Edit generate_build_plate.scad to set GENERATE_BASE_FRAMES = true
-./export_3mf.sh
+# Edit the configuration
+nano config.scad
 ```
 
-### 5. Print the Parts
+### 3. Preview in OpenSCAD
 
-Import the 3MF files into your slicer (Bambu Studio, OrcaSlicer, etc.)
-
-**Print Settings:**
-- Material: PETG or ASA (heat resistant for basking lamps)
-- Infill: 20-30%
-- Layer Height: 0.2mm
-- Supports: None required
-- Orientation: Print as-is (flat on bed)
-
-**Print Quantity:**
-- Base frames: GRID_CELLS_X × GRID_CELLS_Y (from your config)
-- Top frames: Same as base frames
-
-**Bed Size Requirements:**
-- Default 8"×8" cell = 213mm × 213mm print size (includes connector pins)
-- ✅ Fits 250×250mm bed with 37mm margin
-- ✅ Fits 256×256mm bed (Bambu P1S) with 43mm margin
-
-### 6. Assembly
-
-1. **Cut your screen material** to size (slightly larger than total frame)
-2. **Click base frame cells together**:
-   - Each cell has pins on RIGHT and BACK edges
-   - Each cell has sockets on LEFT and FRONT edges
-   - Pins snap into sockets with a satisfying click
-   - Build your grid from bottom-left to top-right
-3. **Lay screen mesh** over the assembled base frame
-4. **Place top frame cells** on top of the screen (they also click together)
-5. **Screw together**: Use M3 countersunk screws through top into base
-6. **Trim excess screen** material around edges
-7. **Place on enclosure lip** and ensure secure fit
-
-💡 **Tip:** Open `assembly_demo.scad` to see how cells connect!
-
-## Project Structure
-
-```
-screenframe3d/
-├── config.scad                  # ⚙️ Master configuration - EDIT THIS
-├── export_complete_set.py       # 🚀 Automated 3MF exporter (RECOMMENDED)
-├── export_3mf.sh                # 📦 Bash script for 3MF export
-├── generate_build_plate.scad    # 🗂️ Multi-part build plate layout
-├── test_connector_fit.scad      # 🧪 Test print for connector fit
-├── assembly_demo.scad           # 📺 Visual guide showing how cells connect
-├── screen_frame_assembly.scad   # 👀 Preview complete assembly
-├── print_base_frame.scad        # 🖨️ Print file for base frames
-├── print_top_frame.scad         # 🖨️ Print file for top frames
-├── print_connectors.scad        # 🖨️ Optional spare connector parts
-├── examples.scad                # 📚 Example configurations gallery
-├── QUICK_START.md               # 🚀 5-minute setup guide
-└── lib/
-    ├── base_frame.scad          # Base frame component library
-    ├── top_frame.scad           # Top frame component library
-    └── connectors.scad          # Standalone connector library
-```
-
-## How the Click-Together System Works
-
-Each cell has an integrated connector system:
-
-**Pin Placement (Male Connectors):**
-- RIGHT edge: 2 pins extending 10mm outward
-- BACK edge: 2 pins extending 10mm outward
-
-**Socket Placement (Female Connectors):**
-- LEFT edge: 2 sockets, 11mm deep
-- FRONT edge: 2 sockets, 11mm deep
-
-**Assembly Pattern:**
-```
-Start here ↓
-┌─────┬─────┐
-│ 1st │ 2nd │  ← Add cells left to right
-├─────┼─────┤
-│ 3rd │ 4th │  ← Then move to next row
-└─────┴─────┘
-```
-
-When you push two cells together:
-1. Pins on Cell A's RIGHT edge insert into Cell B's LEFT sockets
-2. The 11mm socket depth accommodates the 10mm pin perfectly
-3. Cells click together flush with no gap
-4. Top frame cells also click together the same way
-
-**See it in action:** Open `assembly_demo.scad` and change `DEMO_MODE` to see:
-- `"separated"` - View the connector features
-- `"joining"` - See alignment during assembly
-- `"connected"` - See the final flush fit
-
-## Configuration Options
-
-All settings in `config.scad`:
-
-### Grid Configuration
-```openscad
-CELL_WIDTH = 203.2;      // Individual cell width (mm)
-CELL_LENGTH = 203.2;     // Individual cell length (mm)
-GRID_CELLS_X = 2;        // Number of cells horizontally
-GRID_CELLS_Y = 2;        // Number of cells vertically
-```
-
-### Frame Dimensions
-```openscad
-FRAME_WIDTH = 20;        // How wide the frame border is (mm)
-FRAME_THICKNESS = 8;     // Total height of frame (mm)
-SCREEN_GAP = 1.5;        // Space for screen material (mm)
-```
-
-### Connection System
-```openscad
-SCREW_HOLE_DIA = 3.2;    // For M3 screws
-CONNECTOR_PIN_DIA = 4;   // Pin diameter for cell joining
-CONNECTORS_PER_EDGE = 2; // Number of connector pins per edge
-```
-
-## Common Configurations
-
-### Small Enclosure (16" x 16")
-```openscad
-CELL_WIDTH = 203.2;
-CELL_LENGTH = 203.2;
-GRID_CELLS_X = 2;
-GRID_CELLS_Y = 2;
-```
-**Prints needed:** 2 base frames, 2 top frames
-
-### Medium Enclosure (24" x 16")
-```openscad
-CELL_WIDTH = 203.2;
-CELL_LENGTH = 203.2;
-GRID_CELLS_X = 3;
-GRID_CELLS_Y = 2;
-```
-**Prints needed:** 6 base frames, 6 top frames
-
-### Large Enclosure (24" x 24")
-```openscad
-CELL_WIDTH = 203.2;
-CELL_LENGTH = 203.2;
-GRID_CELLS_X = 3;
-GRID_CELLS_Y = 3;
-```
-**Prints needed:** 9 base frames, 9 top frames
-
-### Custom Cell Size (10" x 10")
-```openscad
-CELL_WIDTH = 254;   // 10 inches
-CELL_LENGTH = 254;
-GRID_CELLS_X = 2;
-GRID_CELLS_Y = 2;
-```
-
-## Materials & Hardware
-
-### 3D Printing Materials
-- **Recommended:** PETG or ASA
-  - Heat resistant (important near basking lamps)
-  - Durable and strong
-  - Weather resistant
-- **Not Recommended:** PLA
-  - Can warp/soften near heat lamps
-  - Less durable long-term
-
-### Screen Material
-- Fiberglass window screen mesh
-- Aluminum screen (for extra strength)
-- Heavy-duty pet screen
-- Size: Cut 1-2" larger than total frame size
-
-### Hardware Needed
-- **M3 x 8mm countersunk screws**
-  - Quantity per cell: ~12-16 screws (varies by config)
-  - Calculate total: (SCREWS_PER_EDGE × 4 + 4) × number_of_cells
-- Example: 2x2 grid = ~48-64 screws total
-
-## 3MF Export Tools
-
-This project includes automated export tools to generate 3MF files ready for slicing.
-
-### Quick Export Guide
-
-**Fastest method:**
 ```bash
-./export_complete_set.py
+openscad screen_frame_assembly.scad
 ```
 
-This will:
-1. Read your config.scad settings
-2. Calculate how many parts you need
-3. Generate individual 3MF files for each part type
-4. For small grids (≤4 cells), create complete build plate layouts
-5. Save all files to `output/` directory
+### 4. Export 3MF Files
 
-**What you get:**
-- `base_frame_single.3mf` - Single base frame (multiply in slicer)
-- `top_frame_single.3mf` - Single top frame (multiply in slicer)
-- `connector_test.3mf` - Test print for fit verification
-- `all_base_frames.3mf` - Complete set arranged (2×2 grids only)
-- `all_top_frames.3mf` - Complete set arranged (2×2 grids only)
+Each library has an export script:
 
-### Requirements
+```bash
+# From the library directory
+./export.py
 
-The export scripts require OpenSCAD to be installed:
+# Or from the project root
+cd ..
+./scripts/export_library.py modular-screen-frame
+```
+
+### 5. Print!
+
+Import the 3MF files into your slicer (Bambu Studio, OrcaSlicer, PrusaSlicer, etc.) and print.
+
+## 📦 Exporting 3MF Files
+
+### Export a Single Library
+
+```bash
+./scripts/export_library.py modular-screen-frame
+```
+
+### Export All Libraries
+
+```bash
+./scripts/export_library.py --all
+```
+
+### Custom Output Directory
+
+```bash
+./scripts/export_library.py modular-screen-frame -o /path/to/output
+```
+
+## 🏗️ Project Structure
+
+```
+scad-toolkit/
+├── README.md                       # This file
+├── common/                         # Shared utilities
+│   ├── connectors.scad            # Common connector patterns
+│   ├── hardware.scad              # Standard hardware
+│   └── utils.scad                 # Helper functions
+├── scripts/                        # Build and export tools
+│   ├── export_library.py          # Generic 3MF exporter
+│   ├── export_3mf.sh              # Legacy bash script
+│   └── export_complete_set.py     # Legacy export script
+├── modular-screen-frame/          # Screen frame library
+│   ├── README.md                  # Library-specific docs
+│   ├── config.scad                # Configuration file
+│   ├── lib/                       # Library modules
+│   ├── print_*.scad               # Printable components
+│   ├── test_*.scad                # Test/calibration prints
+│   └── export.py                  # Library export wrapper
+└── 2020-profile/                  # Aluminum profile accessories
+    └── README.md                  # Coming soon!
+```
+
+## 🎯 Using Common Libraries
+
+All libraries can use the shared common modules:
+
+```openscad
+// In your .scad file
+use <../common/connectors.scad>
+use <../common/hardware.scad>
+use <../common/utils.scad>
+
+// Use shared modules
+connector_pin(length=10, diameter=4);
+
+M3_screw(length=15, type="countersunk");
+
+rounded_cube(size=[20, 30, 5], radius=2);
+```
+
+## 📖 Library Development Guide
+
+### Creating a New Library
+
+1. **Create library directory:**
+   ```bash
+   mkdir my-new-library
+   cd my-new-library
+   ```
+
+2. **Create basic files:**
+   ```bash
+   touch config.scad               # Configuration parameters
+   touch README.md                 # Library documentation
+   mkdir lib                       # Library modules
+   touch print_example.scad        # Printable component
+   ```
+
+3. **Create export wrapper:**
+   ```bash
+   cp ../modular-screen-frame/export.py ./
+   # Edit export.py to change the header text
+   ```
+
+4. **Use common libraries:**
+   ```openscad
+   use <../common/connectors.scad>
+   use <../common/hardware.scad>
+   use <../common/utils.scad>
+   ```
+
+5. **Document your library:**
+   - Write a comprehensive README.md
+   - Include Quick Start guide
+   - Add configuration examples
+   - Document all parameters
+
+### Library Requirements
+
+Each library should have:
+- ✅ **config.scad** - Centralized configuration
+- ✅ **README.md** - Complete documentation
+- ✅ **lib/** - Reusable modules
+- ✅ **print_*.scad** - Files ready to export
+- ✅ **Assembly guide** - How to put it together
+- ✅ **Examples** - Common use cases
+
+### Naming Conventions
+
+- **Configuration:** `config.scad`
+- **Printable parts:** `print_*.scad` (e.g., `print_base_frame.scad`)
+- **Test prints:** `test_*.scad` (e.g., `test_connector_fit.scad`)
+- **Library modules:** `lib/*.scad`
+- **Assembly previews:** `*_assembly.scad`
+
+## 🛠️ Requirements
+
+- **OpenSCAD** 2021.01 or later
+- **Python 3.6+** (for export scripts)
+- **Bash** (for legacy export scripts)
+
+### Installing OpenSCAD
+
 ```bash
 # Ubuntu/Debian
 sudo apt install openscad
@@ -281,97 +231,53 @@ sudo apt install openscad
 brew install openscad
 
 # Windows
-# Download from openscad.org
+# Download from https://openscad.org/downloads.html
 ```
 
-### Alternative Methods
+## 🎨 Design Philosophy
 
-**Bash script (simpler):**
-```bash
-./export_3mf.sh
-```
+### Modularity
+Each library is self-contained and can work independently. Common utilities are optional but encouraged.
 
-**Build plate generator:**
-1. Edit `generate_build_plate.scad`
-2. Set `GENERATE_BASE_FRAMES = true` or `GENERATE_TOP_FRAMES = true`
-3. Open in OpenSCAD → F6 → Export as 3MF
+### Parametric Everything
+All designs are fully parametric. Users should be able to customize any dimension via configuration files.
 
-## Tips & Best Practices
+### Print-in-Place Friendly
+Designs should minimize post-processing. Click-together parts, living hinges, and print-in-place mechanisms are preferred.
 
-### Design Tips
-- **Start with default 8"x8" cells** - proven to work well
-- **Larger cells = fewer prints** but require bigger printer bed
-- **Smaller cells = more joints** but more flexible sizing
-- **Add extra connectors** if cells don't align perfectly
+### Well-Documented
+Every library needs comprehensive documentation, examples, and assembly guides.
 
-### Printing Tips
-- **Print all base frames first**, test assembly before printing tops
-- **Use brim** for better bed adhesion on larger cells
-- **Calibrate first layer** for proper connector fit
-- **Test fit one set** before printing entire grid
+### Tested Tolerances
+Include test prints for connector fit verification. Provide tolerance adjustment guidance.
 
-### Assembly Tips
-- **Dry fit everything** before adding screen
-- **Pull screen tight** when clamping between frames
-- **Work from center outward** when screwing frames together
-- **Use washers** if screw heads don't sit flush
+## 🤝 Contributing
 
-### Sizing Tips
-- **Measure your enclosure opening** accurately
-- **Account for lip depth** - frame should sit flat
-- **Add clearance** - PERIMETER_CLEARANCE in config
-- **Test with cardboard** template before printing
+Contributions welcome! To add a new library:
 
-## Troubleshooting
+1. Follow the **Library Development Guide** above
+2. Ensure complete documentation
+3. Include test prints and assembly guides
+4. Submit a pull request
 
-### Connectors Too Tight/Loose
-Adjust `TOLERANCE` in config.scad:
-- Too tight: Increase TOLERANCE (try 0.3mm)
-- Too loose: Decrease TOLERANCE (try 0.1mm)
+## 📄 License
 
-### Screen Sags in Middle
-- Use thicker frame: Increase `FRAME_WIDTH`
-- Add internal support bars (future enhancement)
-- Use smaller cells for larger screens
+This project is open source. Each library may have its own specific license (check library README files).
 
-### Pieces Don't Line Up
-- Check printer calibration
-- Verify all cells use same config.scad
-- Test fit connectors before full assembly
+## 🔗 Resources
 
-### Screws Don't Fit
-- Verify screw size matches `SCREW_HOLE_DIA`
-- Check `COUNTERSINK_DIA` for screw head
-- May need to drill out holes slightly
+- [OpenSCAD Documentation](https://openscad.org/documentation.html)
+- [OpenSCAD Cheat Sheet](https://openscad.org/cheatsheet/)
+- [Printables](https://www.printables.com/) - Share your makes!
+- [Thingiverse](https://www.thingiverse.com/) - More 3D printing resources
 
-## Future Enhancements
+## 📬 Support
 
-Ideas for expansion:
-- Internal support bars for large screens
-- Hinged access panels
-- Integrated mounting clips
-- Feed door cut-outs
-- Lamp cord pass-throughs
-- Locking mechanisms
-
-## Use Case: Chameleon Enclosure
-
-This system was designed specifically for a chameleon enclosure top:
-- **Lightweight construction** - safe for small reptiles
-- **Excellent ventilation** - critical for chameleon health
-- **Secure screening** - prevents escapes
-- **Heat resistant** - safe near UVB/basking lamps
-- **Easy to remove** - for feeding and maintenance
-- **Customizable size** - fits any enclosure
-
-## License
-
-This project is open source. Feel free to modify, share, and improve!
-
-## Contributing
-
-Suggestions and improvements welcome! This is a parametric system designed to be extended.
+- 🐛 **Bug Reports:** Open an issue on GitHub
+- 💡 **Feature Requests:** Open an issue with the "enhancement" label
+- 📖 **Documentation:** Check library-specific README files
+- 🤔 **Questions:** Start a discussion on GitHub
 
 ---
 
-**Happy Printing! 🦎**
+**Happy Making! 🎉**
