@@ -7,12 +7,13 @@
 include <config.scad>
 use <lib/profile_base.scad>
 use <lib/tube_clips.scad>
+use <lib/simple_clip.scad>
 
 // =====================================================
 // DEMO MODE
 // =====================================================
 
-DEMO_MODE = "all";  // Options: "vertical", "horizontal", "multi", "all"
+DEMO_MODE = "all";  // Options: "vertical", "horizontal", "multi", "simple", "all"
 
 // Show reference profile?
 SHOW_PROFILE = true;
@@ -85,12 +86,31 @@ if (DEMO_MODE == "multi" || DEMO_MODE == "all") {
     }
 }
 
+if (DEMO_MODE == "simple" || DEMO_MODE == "all") {
+    // Simple C-clip demo
+    translate([-50, 0, 0]) {
+        color("Tomato")
+        simple_tube_clip(tube_od=TUBE_OD_QUARTER_INCH);
+
+        // Simulated tube
+        if (SHOW_TUBES) {
+            color(TUBE_COLOR)
+            translate([0, 0, 18])
+            cylinder(d=TUBE_OD_QUARTER_INCH, h=40, $fn=30);
+        }
+    }
+}
+
 // =====================================================
 // LABELS
 // =====================================================
 
 if (DEMO_MODE == "all") {
     color("white") {
+        translate([-50, 15, 0])
+        linear_extrude(0.5)
+        text("Simple", size=4, halign="center");
+
         translate([0, 15, 0])
         linear_extrude(0.5)
         text("Vertical", size=4, halign="center");
@@ -113,8 +133,9 @@ echo("===========================================");
 echo("TUBE CLIP ASSEMBLY DEMO");
 echo("===========================================");
 echo("Change DEMO_MODE to view different clips:");
-echo("  'vertical'   - Single vertical clip");
-echo("  'horizontal' - Single horizontal clip");
+echo("  'simple'     - Simple C-clip (press-fit)");
+echo("  'vertical'   - Twist-lock vertical clip");
+echo("  'horizontal' - Twist-lock horizontal clip");
 echo("  'multi'      - Multi-tube clip");
 echo("  'all'        - All clips shown");
 echo("");
@@ -122,10 +143,15 @@ echo("Toggle options:");
 echo("  SHOW_PROFILE - Show 2020 profile reference");
 echo("  SHOW_TUBES   - Show tubes in clips");
 echo("");
-echo("TWIST-LOCK INSTALLATION:");
-echo("1. Align tabs with T-slot opening");
-echo("2. Push clip toward profile");
-echo("3. Rotate 45° clockwise");
-echo("4. Tabs lock into T-slot head");
-echo("5. Insert tubing");
+echo("INSTALLATION:");
+echo("");
+echo("SIMPLE C-CLIP:");
+echo("  1. Secure to profile with M4 screws");
+echo("  2. Press tube into C-clip opening");
+echo("");
+echo("TWIST-LOCK CLIPS:");
+echo("  1. Align tabs with T-slot opening");
+echo("  2. Push clip toward profile");
+echo("  3. Rotate 45° clockwise");
+echo("  4. Insert tubing");
 echo("===========================================");

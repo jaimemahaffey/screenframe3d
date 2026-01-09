@@ -4,10 +4,25 @@ A collection of parametric connectors and accessories for 2020 aluminum extrusio
 
 ## ✅ Available Components
 
+### Simple C-Clip Tube Holder
+**Status: Production Ready** 🎉 **RECOMMENDED FOR MOST USES**
+
+The easiest way to mount tubes - just a simple press-fit C-clip!
+
+**Features:**
+- Simple C-shaped press-fit design
+- 1.5" × 1.5" (38mm) compact base
+- Two M4 screw mounting (standard hardware)
+- Easy tube insertion/removal
+- Internal grip ribs for secure hold
+- Default: 1/4" (6.35mm) tubing
+
+**File:** `print_tube_clip_simple.scad`
+
 ### Twist-Lock Tube Clips
 **Status: Production Ready** 🎉
 
-Secure tubing to 2020 profiles with a quick twist-lock mechanism. No screws or tools required!
+Advanced tool-free clips with twist-lock mechanism. Great when you can't use screws!
 
 **Variants:**
 - ✅ **Vertical Clip** - Tube perpendicular to profile
@@ -19,7 +34,7 @@ Secure tubing to 2020 profiles with a quick twist-lock mechanism. No screws or t
 - Default: 1/4" (6.35mm) tubing
 - Parametric design - easily adjust for other tube sizes
 - 270° wrap for secure grip
-- No tools required for installation
+- No screws or tools required for installation
 
 **Files:**
 - `print_tube_clip_vertical.scad` - Single tube, perpendicular mount
@@ -67,9 +82,11 @@ Standard 2020 aluminum extrusion:
 
 Open `assembly_demo.scad` in OpenSCAD to see all clip variants on a reference profile:
 ```openscad
-DEMO_MODE = "all";  // Shows all clip types
-SHOW_PROFILE = true;  // Shows 2020 profile
-SHOW_TUBES = true;    // Shows tubes in clips
+DEMO_MODE = "all";     // Shows all clip types
+SHOW_PROFILE = true;   // Shows 2020 profile
+SHOW_TUBES = true;     // Shows tubes in clips
+
+// Options: "simple", "vertical", "horizontal", "multi", "all"
 ```
 
 ### 2. Customize (Optional)
@@ -102,6 +119,13 @@ Edit `config.scad` to adjust:
 
 ### 4. Install on Profile
 
+**Simple C-Clip (Recommended):**
+1. **Position:** Place clip on profile where needed
+2. **Screw:** Secure with 2× M4 screws into T-slot or drilled holes
+3. **Insert:** Press tube into C-clip opening
+4. **Done!** Internal ribs grip the tube
+
+**Twist-Lock Clips (Tool-Free):**
 1. **Insert:** Align tabs with T-slot opening
 2. **Push:** Slide clip toward the profile face
 3. **Twist:** Rotate 45° clockwise
@@ -112,16 +136,18 @@ Edit `config.scad` to adjust:
 
 ```
 2020Extrusion/
-├── README.md                       # This file
-├── config.scad                     # Global configuration
-├── assembly_demo.scad              # Visual demo with all clips
-├── export.py                       # Quick 3MF export script
+├── README.md                          # This file
+├── config.scad                        # Global configuration
+├── assembly_demo.scad                 # Visual demo with all clips
+├── export.py                          # Quick 3MF export script
 ├── lib/
-│   ├── profile_base.scad          # Base 2020 profile module
-│   └── tube_clips.scad            # Twist-lock tube clip library
-├── print_tube_clip_vertical.scad  # Vertical tube clip
-├── print_tube_clip_horizontal.scad # Horizontal tube clip
-└── print_tube_clip_multi.scad     # Multi-tube clip
+│   ├── profile_base.scad             # Base 2020 profile module
+│   ├── simple_clip.scad              # Simple C-clip library
+│   └── tube_clips.scad               # Twist-lock tube clip library
+├── print_tube_clip_simple.scad       # Simple C-clip (RECOMMENDED)
+├── print_tube_clip_vertical.scad     # Vertical twist-lock clip
+├── print_tube_clip_horizontal.scad   # Horizontal twist-lock clip
+└── print_tube_clip_multi.scad        # Multi-tube twist-lock clip
 ```
 
 ## 🎨 Design Goals
@@ -167,6 +193,20 @@ Common patterns extracted to shared library modules
 - Workshop organization
 
 ## 🔧 Customization Guide
+
+### Which Clip Should I Use?
+
+**Use Simple C-Clip when:**
+- You have M4 screws and T-nuts available
+- You want the simplest, most reliable design
+- You need frequently accessed tubes (easy removal)
+- Compact size is important (1.5" × 1.5")
+
+**Use Twist-Lock Clips when:**
+- You can't use screws (temporary setup)
+- Tool-free installation is required
+- You need to reposition clips frequently
+- Mounting multiple tubes in a row
 
 ### Custom Tube Sizes
 
