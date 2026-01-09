@@ -44,11 +44,33 @@ Before printing full cells, test your printer's tolerances:
 - If too tight: increase `TOLERANCE` in config.scad
 - If too loose: decrease `TOLERANCE` in config.scad
 
-### 4. Print the Parts
+### 4. Export 3MF Files (Recommended)
 
-Open these files in your slicer:
-- `print_base_frame.scad` - Print one for each cell
-- `print_top_frame.scad` - Print one for each cell
+**Option A: Automated Export (Easy)**
+```bash
+./export_complete_set.py
+```
+This Python script will:
+- Read your config.scad automatically
+- Generate 3MF files for all parts you need
+- Create complete build plate layouts (for small grids)
+- Save everything to `output/` directory
+
+**Option B: Manual Export (Traditional)**
+1. Open `print_base_frame.scad` in OpenSCAD
+2. Press F6 to render
+3. File → Export → Export as 3MF
+4. Repeat for `print_top_frame.scad`
+
+**Option C: Build Plate Layout**
+```bash
+# Edit generate_build_plate.scad to set GENERATE_BASE_FRAMES = true
+./export_3mf.sh
+```
+
+### 5. Print the Parts
+
+Import the 3MF files into your slicer (Bambu Studio, OrcaSlicer, etc.)
 
 **Print Settings:**
 - Material: PETG or ASA (heat resistant for basking lamps)
@@ -57,12 +79,16 @@ Open these files in your slicer:
 - Supports: None required
 - Orientation: Print as-is (flat on bed)
 
+**Print Quantity:**
+- Base frames: GRID_CELLS_X × GRID_CELLS_Y (from your config)
+- Top frames: Same as base frames
+
 **Bed Size Requirements:**
 - Default 8"×8" cell = 213mm × 213mm print size (includes connector pins)
 - ✅ Fits 250×250mm bed with 37mm margin
 - ✅ Fits 256×256mm bed (Bambu P1S) with 43mm margin
 
-### 5. Assembly
+### 6. Assembly
 
 1. **Cut your screen material** to size (slightly larger than total frame)
 2. **Click base frame cells together**:
@@ -83,6 +109,9 @@ Open these files in your slicer:
 ```
 screenframe3d/
 ├── config.scad                  # ⚙️ Master configuration - EDIT THIS
+├── export_complete_set.py       # 🚀 Automated 3MF exporter (RECOMMENDED)
+├── export_3mf.sh                # 📦 Bash script for 3MF export
+├── generate_build_plate.scad    # 🗂️ Multi-part build plate layout
 ├── test_connector_fit.scad      # 🧪 Test print for connector fit
 ├── assembly_demo.scad           # 📺 Visual guide showing how cells connect
 ├── screen_frame_assembly.scad   # 👀 Preview complete assembly
@@ -215,6 +244,57 @@ GRID_CELLS_Y = 2;
   - Quantity per cell: ~12-16 screws (varies by config)
   - Calculate total: (SCREWS_PER_EDGE × 4 + 4) × number_of_cells
 - Example: 2x2 grid = ~48-64 screws total
+
+## 3MF Export Tools
+
+This project includes automated export tools to generate 3MF files ready for slicing.
+
+### Quick Export Guide
+
+**Fastest method:**
+```bash
+./export_complete_set.py
+```
+
+This will:
+1. Read your config.scad settings
+2. Calculate how many parts you need
+3. Generate individual 3MF files for each part type
+4. For small grids (≤4 cells), create complete build plate layouts
+5. Save all files to `output/` directory
+
+**What you get:**
+- `base_frame_single.3mf` - Single base frame (multiply in slicer)
+- `top_frame_single.3mf` - Single top frame (multiply in slicer)
+- `connector_test.3mf` - Test print for fit verification
+- `all_base_frames.3mf` - Complete set arranged (2×2 grids only)
+- `all_top_frames.3mf` - Complete set arranged (2×2 grids only)
+
+### Requirements
+
+The export scripts require OpenSCAD to be installed:
+```bash
+# Ubuntu/Debian
+sudo apt install openscad
+
+# macOS
+brew install openscad
+
+# Windows
+# Download from openscad.org
+```
+
+### Alternative Methods
+
+**Bash script (simpler):**
+```bash
+./export_3mf.sh
+```
+
+**Build plate generator:**
+1. Edit `generate_build_plate.scad`
+2. Set `GENERATE_BASE_FRAMES = true` or `GENERATE_TOP_FRAMES = true`
+3. Open in OpenSCAD → F6 → Export as 3MF
 
 ## Tips & Best Practices
 
